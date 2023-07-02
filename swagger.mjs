@@ -3,6 +3,10 @@ import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 
 const port = process.env.PORT || 8000;
+const url =
+  process.env.NODE_ENV === "production"
+    ? `https://app-rzs1.onrender.com/`
+    : `http://localhost:${port}`;
 
 const options = {
   definition: {
@@ -19,7 +23,7 @@ const options = {
     },
     servers: [
       {
-        url: `http://localhost:${port}`,
+        url,
       },
     ],
   },
@@ -28,7 +32,10 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-const swaggerConfig = [swaggerUi.serve, swaggerUi.setup(specs,{
-  explorer:true
-})];
+const swaggerConfig = [
+  swaggerUi.serve,
+  swaggerUi.setup(specs, {
+    explorer: true,
+  }),
+];
 export default swaggerConfig;
